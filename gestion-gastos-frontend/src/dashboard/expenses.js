@@ -54,6 +54,7 @@ async function loadExpenses() {
   } catch (error) {
     console.error("Error al cargar los gastos:", error.message);
     alert("No se pudieron cargar los gastos.");
+    console.log(error.message);
   }
 }
 

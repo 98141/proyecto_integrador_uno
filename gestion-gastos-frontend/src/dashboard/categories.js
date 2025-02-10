@@ -24,6 +24,7 @@ async function loadCategories() {
         <span>${category.name}</span>
         <div>
           <button class="edit" data-id="${category._id}" data-name="${category.name}">Editar</button>
+          <button class="delete" data-id="${category._id}">Eliminar</button>
         </div>
       `;
       categoryList.appendChild(li);
@@ -33,6 +34,7 @@ async function loadCategories() {
   } catch (error) {
     console.error("Error al cargar categorías:", error.message);
     alert("No se pudieron cargar las categorías.");
+    console.log("Aqui se imprime el error", error);
   }
 }
 
@@ -69,6 +71,25 @@ async function updateCategory() {
   } catch (error) {
     console.error("Error al actualizar la categoría:", error.message);
     alert("No se pudo actualizar la categoría.");
+  }
+}
+
+// Función para eliminar una categoria 
+async function handleDelete(event) {
+  const button = event.target;
+  const id = button.dataset.id;
+
+  if (!confirm("¿Estás seguro de que deseas eliminar esta categoría ?")) return;
+
+  try {
+    const token = getToken();
+    await apiFetch(`/categories/${id}`, "DELETE", null, token);
+    alert("Categoría eliminada correctamente.");
+    loadCategories();
+  } catch (error) {
+    console.error("Error al eliminar la categoría:", error.message);
+    alert("No se pudo eliminar la categoría.");
+    console.log(error)
   }
 }
 
